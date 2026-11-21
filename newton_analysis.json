@@ -1,0 +1,72 @@
+{
+  "currentUrl": "https://my.newtonschool.co/register?next=/course/0rsk0a0teyqh/details",
+  "title": "Newton School",
+  "inputs": [
+    {
+      "type": "text",
+      "name": "name",
+      "id": "name",
+      "placeholder": "What should we call you?",
+      "value": "",
+      "ariaLabel": null
+    },
+    {
+      "type": "email",
+      "name": "email",
+      "id": "email",
+      "placeholder": "name@example.com",
+      "value": "",
+      "ariaLabel": null
+    },
+    {
+      "type": "tel",
+      "name": "phone",
+      "id": "phone",
+      "placeholder": "Enter your phone number",
+      "value": "",
+      "ariaLabel": null
+    }
+  ],
+  "buttons": [
+    {
+      "text": "",
+      "id": "",
+      "className": "sc-137c06d-11 hWfDKH",
+      "type": "button"
+    },
+    {
+      "text": "🇮🇳",
+      "id": "",
+      "className": "sc-ec795657-0 htfIXK pt-0 pb-0 pr-0 country-code-picker manual-form-field",
+      "type": "button"
+    },
+    {
+      "text": "Send OTP",
+      "id": "",
+      "className": "sc-ec795657-0 ekUvGA",
+      "type": "button"
+    }
+  ],
+  "links": [
+    {
+      "text": "Terms & Conditions",
+      "href": "https://www.newtonschool.co/data-science-terms-and-conditions"
+    },
+    {
+      "text": "Support",
+      "href": "mailto:support@newtonschool.co"
+    },
+    {
+      "text": "Terms & Conditions",
+      "href": "https://www.newtonschool.co/data-science-terms-and-conditions"
+    },
+    {
+      "text": "Privacy Policy",
+      "href": "https://newtonschool.co/privacy-policy"
+    }
+  ],
+  "googleBtns": [
+    "Google element"
+  ],
+  "bodyTextSnippet": "Login\nAn online platform for your tech career\nYour fastest way to learn coding and get placed at 5-40LPA\nFull Stack Web Dev. course\nMonthly Coding contests\nOR\nFull Name\nEmail\nPhone Number\n🇮🇳\n+91\nSend OTP\n\nBy clicking Sign Up, you agree to our Terms & Conditions\n\nCopyright © 2026 Incanus Technologies Pvt. Ltd.\nAll rights reserved.\nLegal\nSupport\nTerms & Conditions\nPrivacy Policy"
+}

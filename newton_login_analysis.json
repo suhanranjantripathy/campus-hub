@@ -1,0 +1,42 @@
+{
+  "url": "https://my.newtonschool.co/login?next=/course/0rsk0a0teyqh/details",
+  "inputs": [
+    {
+      "type": "text",
+      "name": "email",
+      "id": "email",
+      "placeholder": "Enter your email",
+      "value": ""
+    },
+    {
+      "type": "password",
+      "name": "password",
+      "id": "password",
+      "placeholder": "Enter your password",
+      "value": ""
+    }
+  ],
+  "buttons": [
+    {
+      "text": "",
+      "className": "sc-137c06d-11 hWfDKH"
+    },
+    {
+      "text": "Email",
+      "className": "navigation-menu_navigation-menu-item__JFrsV navigation-menu_active__m_GyS"
+    },
+    {
+      "text": "Mobile",
+      "className": "navigation-menu_navigation-menu-item__JFrsV "
+    },
+    {
+      "text": "",
+      "className": "sc-ec795657-0 jpGXBV"
+    },
+    {
+      "text": "Login",
+      "className": "sc-ec795657-0 fYYYcX"
+    }
+  ],
+  "bodySnippet": "Sign up\nLogin to your account\nEmailMobile\nEmail\nPassword\nForgot Password\nLogin\nDon't have an account?\nApply to Newton School\nCopyright © 2026 Incanus Technologies Pvt. Ltd.\nAll rights reserved.\nLegal\nSupport\nTerms & Conditions\nPrivacy Policy"
+}
