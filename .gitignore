@@ -16,3 +16,7 @@ yarn-error.log*
 # OS
 .DS_Store
 *.pem
+
+# Browser profiles & session tokens
+.newton-chrome-profile/
+public/newton_session.json
