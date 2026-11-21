@@ -37,70 +37,53 @@ export async function launchGoogleLogin() {
     console.log('Waiting 3 seconds for Google Identity Service button to render...');
     await new Promise((r) => setTimeout(r, 3000));
 
-    // Listen for new popup window (Google OAuth Account Chooser)
-    browser.on('targetcreated', async (target) => {
-      if (target.type() === 'page') {
-        const popupPage = await target.page();
-        if (popupPage) {
-          const popupUrl = popupPage.url();
-          console.log(`\n🔔 Google Sign-In Popup Opened: ${popupUrl}`);
-        }
-      }
-    });
-
     // Auto-click the Google button iframe
     console.log('Locating "Sign up with Google" button...');
-    let clicked = false;
-
-    // Try finding iframe
     const googleIframe = await page.$('iframe[src*="accounts.google.com/gsi/button"]');
     if (googleIframe) {
       console.log('Found Google button iframe. Clicking...');
       const box = await googleIframe.boundingBox();
       if (box) {
         await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
-        clicked = true;
         console.log('✅ Clicked Google Sign-in button successfully!');
       }
     }
 
-    if (!clicked) {
-      // Fallback: look for any button/div containing "Google"
-      console.log('Trying fallback selectors for Google button...');
-      await page.evaluate(() => {
-        const els = Array.from(document.querySelectorAll('*'));
-        const gEl = els.find((el) => {
-          const t = el.innerText || '';
-          return t.toLowerCase().includes('google') && el.children.length === 0;
-        });
-        if (gEl) gEl.click();
-      });
-    }
-
     console.log('\n======================================================');
-    console.log('👉 Google Sign-in has been clicked.');
-    console.log('👉 Select your Google account in the popup window.');
-    console.log('👉 Once redirected to your course details, the session');
-    console.log('   will be automatically extracted.');
+    console.log('👉 Google Sign-in page is now open.');
+    console.log('👉 Enter your Google email & password (or select account).');
+    console.log('👉 Take your time — the script is waiting until you are');
+    console.log('   fully redirected back to Newton School course details.');
     console.log('======================================================\n');
 
-    // Wait until redirected to course details or dashboard
+    // Wait until user is fully redirected BACK to my.newtonschool.co course or dashboard
     await page.waitForFunction(
       () => {
-        const u = window.location.href;
-        return (
-          u.includes('/course/0rsk0a0teyqh') ||
-          (u.includes('my.newtonschool.co') && !u.includes('/login') && !u.includes('/register'))
-        );
+        const host = window.location.hostname;
+        const path = window.location.pathname;
+
+        // Must be on my.newtonschool.co (NOT accounts.google.com)
+        if (host !== 'my.newtonschool.co') {
+          return false;
+        }
+
+        // Must NOT be on /login or /register
+        if (path.startsWith('/login') || path.startsWith('/register')) {
+          return false;
+        }
+
+        // Must be on course page or dashboard
+        return path.includes('/course/0rsk0a0teyqh') || path.includes('/dashboard') || path.length > 1;
       },
-      { timeout: 180000, polling: 1000 }
+      { timeout: 300000, polling: 1000 } // 5 minutes wait
     );
 
     const loggedInUrl = page.url();
-    console.log(`\n🎉 Successfully authenticated into Newton School!`);
+    console.log(`\n🎉 Authentication complete! Arrived back at Newton School:`);
     console.log(`Current URL: ${loggedInUrl}`);
 
-    await new Promise((r) => setTimeout(r, 4000));
+    console.log('Waiting 5 seconds for course dashboard to fully render...');
+    await new Promise((r) => setTimeout(r, 5000));
 
     // Save cookies
     const cookies = await page.cookies();
@@ -119,13 +102,16 @@ export async function launchGoogleLogin() {
         title: document.title,
         url: window.location.href,
         headings: Array.from(document.querySelectorAll('h1, h2, h3, h4')).map((h) => h.innerText.trim()),
-        bodySnippet: document.body.innerText.slice(0, 1500),
+        links: Array.from(document.querySelectorAll('a')).map((a) => ({ text: a.innerText.trim(), href: a.href })).filter(l => l.text.length > 0 && l.text.length < 60),
+        bodySnippet: document.body.innerText.slice(0, 2000),
       };
     });
 
     console.log('\n--- EXTRACTED COURSE DATA ---');
     console.log(JSON.stringify(courseInfo, null, 2));
+    fs.writeFileSync('newton_course_data.json', JSON.stringify(courseInfo, null, 2));
 
+    console.log('\n✅ Course data successfully extracted and saved!');
     return { success: true, url: loggedInUrl, courseInfo };
   } catch (err) {
     console.error('Google login error:', err.message);
